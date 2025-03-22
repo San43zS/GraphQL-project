@@ -1,0 +1,23 @@
+version: '3'
+
+networks:
+  internal:
+
+services:
+  mongo:
+    networks:
+      - internal
+    image: 'mongo:4.4.6'
+    container_name: 'mongo'
+    ports:
+      - '27017:27017'
+  GraphQL-project:
+    build : .
+    ports:
+      - '8080:8080'
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/app
+    networks:
+      - internal

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+option go_package = "generate/desc";
+
+message User {
+  string id = 1;
+  UserData user = 2;
+}
+
+message UserData {
+  string email = 1;
+  string name = 2;
+  int32 age = 3;
+  string university = 4;
+  int32 course = 5;
+  repeated string hobbies = 6;
+}
+
+message UserAccessInfo {
+  string id = 1;
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+service UserService {
+  rpc CreateUser(UserData) returns (UserAccessInfo) {
+    option (google.api.http) = {
+      post: "/user"
+      body: "*"
+    };
+  };
+  rpc DeleteUser(UserRequest) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      delete: "/user/{id}"
+    };
+  };
+}
